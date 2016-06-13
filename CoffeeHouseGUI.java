@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by vdohryk on 13.06.2016.
@@ -26,34 +28,40 @@ public class CoffeeHouseGUI {
     }
 
     private JPanel createPanel(){
+
+        List<AbstractProduct> products = menu.getProducts();
         JPanel jPanel = new JPanel();
+        jPanel.setLayout(new GridBagLayout());
         JLabel label = new JLabel("Customer:");
         JTextField customer = new JTextField();
+        customer.setColumns(25);
 
         JLabel labelCount = new JLabel("count:");
         NumberFormat nf = NumberFormat.getIntegerInstance();
         JFormattedTextField count = new JFormattedTextField(nf);
+        count.setColumns(2);
         count.setValue(0);
-
-        customer.setSize(15,10);
 
         JButton jBuy = new JButton("Buy");
 
-        jPanel.add(label);
-        jPanel.add(customer);
+        jPanel.add(label, new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
+        jPanel.add(customer, new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0));
 
+        JLabel lProducts = new JLabel("MENU:");
         ButtonGroup group = new ButtonGroup();
         JPanel pProducts = new JPanel();
+        pProducts.setLayout(new GridLayout(products.size(), 0));
         for (AbstractProduct product: menu.getProducts()){
             JRadioButton jButton = new JRadioButton(product.getName());
             group.add(jButton);
             pProducts.add(jButton);
         }
+        jPanel.add(lProducts, new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
+        jPanel.add(pProducts, new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,3,0,0),0,0));
 
-        jPanel.add(pProducts);
-        jPanel.add(labelCount);
-        jPanel.add(count);
-        jPanel.add(jBuy);
+        jPanel.add(labelCount, new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
+        jPanel.add(count, new GridBagConstraints(1,2,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
+        jPanel.add(jBuy, new GridBagConstraints(1,3,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
 
         return jPanel;
     }

@@ -9,30 +9,34 @@ import CoffeeHouse.Product.Tea.BlackTea;
 import CoffeeHouse.Product.Tea.GreenTea;
 import CoffeeHouse.Product.Tea.TeaWithBergamont;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by vdohryk on 30.05.2016.
  */
 public class Menu {
 
-    private AbstractProduct[] products = new AbstractProduct[7];
+    private List<AbstractProduct> products = new ArrayList<AbstractProduct>();
+
     Menu(){
-        products[0] = new Americano();
-        products[1] = new Capuchino();
-        products[2] = new Espresso();
-        products[3] = new Latte();
-        products[4] = new BlackTea();
-        products[5] = new GreenTea();
-        products[6] = new TeaWithBergamont();
+        products.add(new Americano());
+        products.add(new Capuchino());
+        products.add(new Espresso());
+        products.add(new Latte());
+        products.add(new BlackTea());
+        products.add(new GreenTea());
+        products.add(new TeaWithBergamont());
     }
 
     public void printMenu(){
         System.out.println("-------------MENU-------------");
-        for (int i=0; i< products.length; i++){
-            System.out.println(products[i].getName() + " - " + products[i].getPrice() + " UAH");
+        for (AbstractProduct product : products){
+            System.out.println(product.getName() + " - " + product.getPrice() + " UAH");
         }
     }
 
-    public AbstractProduct[] getProducts() {
+    public List<AbstractProduct> getProducts() {
         return products;
     }
 }
