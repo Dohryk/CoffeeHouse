@@ -1,8 +1,11 @@
 package CoffeeHouse;
 
+import CoffeeHouse.Product.AbstractProduct;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 
 /**
  * Created by vdohryk on 13.06.2016.
@@ -28,7 +31,9 @@ public class CoffeeHouseGUI {
         JTextField customer = new JTextField();
 
         JLabel labelCount = new JLabel("count:");
-        JTextField count = new JTextField();
+        NumberFormat nf = NumberFormat.getIntegerInstance();
+        JFormattedTextField count = new JFormattedTextField(nf);
+        count.setValue(0);
 
         customer.setSize(15,10);
 
@@ -36,7 +41,16 @@ public class CoffeeHouseGUI {
 
         jPanel.add(label);
         jPanel.add(customer);
-        jPanel.add(createRadioPanel());
+
+        ButtonGroup group = new ButtonGroup();
+        JPanel pProducts = new JPanel();
+        for (AbstractProduct product: menu.getProducts()){
+            JRadioButton jButton = new JRadioButton(product.getName());
+            group.add(jButton);
+            pProducts.add(jButton);
+        }
+
+        jPanel.add(pProducts);
         jPanel.add(labelCount);
         jPanel.add(count);
         jPanel.add(jBuy);

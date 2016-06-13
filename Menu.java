@@ -31,4 +31,8 @@ public class Menu {
             System.out.println(products[i].getName() + " - " + products[i].getPrice() + " UAH");
         }
     }
+
+    public AbstractProduct[] getProducts() {
+        return products;
+    }
 }
