@@ -7,6 +7,7 @@ public class LounchMenu {
     public static void main(String[] args) {
         Menu menu = new Menu();
 
+        CoffeeHouseGUI coffeeHouseGUI = new CoffeeHouseGUI(menu);
         menu.printMenu();
     }
 }
