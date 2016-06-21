@@ -4,6 +4,8 @@ import CoffeeHouse.Product.AbstractProduct;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.util.*;
@@ -14,6 +16,7 @@ import java.util.List;
  */
 public class CoffeeHouseGUI {
     private Menu menu;
+    private int productIndex = 0;
 
     CoffeeHouseGUI(Menu menu){
         this.menu = menu;
@@ -47,14 +50,20 @@ public class CoffeeHouseGUI {
         jPanel.add(label, new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
         jPanel.add(customer, new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0));
 
+        ActionListener groupListener = new radioGroupListener();
+
         JLabel lProducts = new JLabel("MENU:");
         ButtonGroup group = new ButtonGroup();
         JPanel pProducts = new JPanel();
         pProducts.setLayout(new GridLayout(products.size(), 0));
+        int i=0;
         for (AbstractProduct product: menu.getProducts()){
             JRadioButton jButton = new JRadioButton(product.getName());
+            jButton.setActionCommand(String.valueOf(i));
+            jButton.addActionListener(groupListener);
             group.add(jButton);
             pProducts.add(jButton);
+            i++;
         }
         jPanel.add(lProducts, new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
         jPanel.add(pProducts, new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,3,0,0),0,0));
@@ -63,6 +72,16 @@ public class CoffeeHouseGUI {
         jPanel.add(count, new GridBagConstraints(1,2,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
         jPanel.add(jBuy, new GridBagConstraints(1,3,1,1,0,0,GridBagConstraints.LINE_START,0, new Insets(0,0,0,0),0,0));
 
+        jBuy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customer client = new Customer(customer.getText());
+                int countT = Integer.parseInt(count.getText());
+                AbstractProduct abstractProduct = menu.getProducts().get(productIndex);
+                Transaction transaction = new Transaction(client, abstractProduct,countT);
+                transaction.printTransaction();
+            }
+        });
         return jPanel;
     }
 
@@ -117,5 +136,14 @@ public class CoffeeHouseGUI {
 
         jPanel.add(radioPanel);
         return jPanel;
+    }
+
+    private  class radioGroupListener implements  ActionListener{
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            productIndex = Integer.parseInt(e.getActionCommand());
+        }
     }
 }
